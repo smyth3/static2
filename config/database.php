@@ -2,12 +2,23 @@
 
 use Illuminate\Support\Str;
 
-$url = parse_url(getenv("DATABASE_URL"));
+if(env("APP_TYPE") == "development")
+{
+    $host = env('DB_HOST');
+    $username = env('DB_USERNAME');
+    $password = env("DB_PASSWORD");
+    $database = env("DB_DATABASE");
+}
+else
+{
+    $url = parse_url(getenv("DATABASE_URL"));
 
-$host = $url["host"];
-$username = $url["user"];
-$password = $url["pass"];
-$database = substr($url["path"], 1);
+    $host = $url["host"];
+    $username = $url["user"];
+    $password = $url["pass"];
+    $database = substr($url["path"], 1);
+}
+
 
 return [
 
@@ -78,7 +89,7 @@ return [
             'password' => $password,
             'charset'  => 'utf8',
             'prefix'   => '',
-            'schema'   => 'public',
+            'schema'   => 'public'
         ),
 
         'sqlsrv' => [
